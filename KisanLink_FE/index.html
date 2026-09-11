@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KisanLink | Smart Procurement Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="style.css"> -->
+   <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+  <div id="toastContainer" class="toast-container"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" onclick="showView('home')">
+      <img src="assets/kisanlink-logo.jpg" alt="KisanLink Logo" class="brand-logo-img">
+      <span><strong>KisanLink</strong><small>किसान से मंडी तक • भारतीय किसान का अपना पोर्टल</small></span>
+    </a>
+    <nav class="nav" id="mainNav">
+      <a href="#" data-view="home" onclick="showView('home')">Home</a>
+      <a href="#" data-view="farmer" onclick="navigateToPortal('farmer')">Kisan</a>
+      <a href="#" data-view="officer" onclick="navigateToPortal('officer')">Mandi Officer</a>
+      <a href="#" data-view="government" onclick="navigateToPortal('government')">Government</a>
+      <a href="#" data-view="login" class="nav-login-link" onclick="showLogin('kisan')">Sign In</a>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-btn" id="langBtn" onclick="toggleLanguage()">हिंदी</button>
+      <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+      <div id="authHeaderContainer">
+        <!-- Populated dynamically by updateAuthUI() -->
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="view active">
+      <div class="hero container">
+        <div class="hero-copy">
+          <span class="eyebrow">🇮🇳 भारत का किसान • SMART PROCUREMENT • FARMER FIRST</span>
+          <h1 data-i18n="heroTitle">From Kisan to Mandi — <span class="highlight">Simple, Fast & Transparent</span></h1>
+          <p data-i18n="heroText">KisanLink helps farmers find the right procurement slot, avoid overloaded centres, track their queue and follow payment status.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="navigateToPortal('farmer', 'booking')">🌾 Book a Procurement Slot <span>→</span></button>
+            <button class="btn btn-secondary" onclick="scrollToSection('how')">How KisanLink Works</button>
+            <button class="btn btn-outline-gold" onclick="showSignup()">📝 Kisan Registration</button>
+          </div>
+          <div class="trust-row">
+            <span>✓ Capacity-aware slots</span>
+            <span>✓ Alternative mandis</span>
+            <span>✓ Live token queue</span>
+            <span>✓ Direct DBT payment</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+
+          <!-- Animated Happy Farmer Character Card -->
+          <div class="hero-farmer-card">
+            <div class="farmer-avatar-glow">
+              <img src="assets/happy-farmer-success.jpg" alt="Happy Indian Farmer with Slot" class="hero-farmer-avatar">
+              <div class="farmer-verified-tag">
+                <span class="live-dot"></span>
+                <b>अन्नदाता • Slot Confirmed</b>
+              </div>
+            </div>
+            <!-- Floating Animated Badges -->
+            <div class="float-badge float-badge-wheat">
+              <span>🌾</span>
+              <div>
+                <b>गेहूं 42 क्विंटल</b>
+                <small>स्लॉट पक्का ✓</small>
+              </div>
+            </div>
+            <div class="float-badge float-badge-dbt">
+              <span>💰</span>
+              <div>
+                <b>₹96,600 DBT</b>
+                <small>सीधा बैंक में</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-card">
+            <div class="flow-head"><span class="live-dot"></span> Smart Slot Engine <b>LIVE DEMO</b></div>
+            <div class="flow-step"><span>👨‍🌾</span><div><b>Kisan Request</b><small>Wheat • 42 Quintal</small></div><i>✓</i></div>
+            <div class="flow-line"></div>
+            <div class="flow-step"><span>🤖</span><div><b>Capacity Check</b><small>3 centres analysed</small></div><i>✓</i></div>
+            <div class="flow-line"></div>
+            <div class="flow-step selected"><span>📍</span><div><b>Best Slot Found</b><small>10:30 AM • Mandi C</small></div><i>→</i></div>
+            <div class="flow-line"></div>
+            <div class="flow-step"><span>💳</span><div><b>Payment Tracking</b><small>Transparent status</small></div><i>✓</i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-strip">
+        <div><strong>48</strong><span>Procurement Mandis • सरकारी खरीद केंद्र</span></div>
+        <div><strong>12,840+</strong><span>Farmers Served Today • आज के पंजीकृत किसान</span></div>
+        <div><strong>82,450 Q</strong><span>Produce Procured • कुल फसल खरीद</span></div>
+        <div><strong>91%</strong><span>DBT Payments Settled • सीधा बैंक भुगतान</span></div>
+      </div>
+
+      <div class="container section" id="problem">
+        <div class="section-heading"><span class="eyebrow">THE PROBLEM</span><h2>Making procurement predictable for every farmer.</h2><p>Turn uncertainty at government procurement centres into a clear digital journey.</p></div>
+        <div class="problem-grid">
+          <article class="feature-card"><span>⏳</span><h3>Long Waiting Times</h3><p>Reduce unnecessary hours spent waiting at overloaded centres.</p></article>
+          <article class="feature-card"><span>📅</span><h3>Uncertain Schedules</h3><p>Give farmers a clear procurement date and time slot.</p></article>
+          <article class="feature-card"><span>🏭</span><h3>Overloaded Centres</h3><p>Use capacity visibility to guide farmers toward better options.</p></article>
+          <article class="feature-card"><span>🎫</span><h3>Invisible Queues</h3><p>Show token position and estimated waiting time.</p></article>
+          <article class="feature-card"><span>💰</span><h3>Payment Uncertainty</h3><p>Provide a transparent procurement-to-payment timeline.</p></article>
+        </div>
+      </div>
+
+      <div class="container section solution">
+        <div class="section-heading"><span class="eyebrow">THE KISANLINK SOLUTION</span><h2>One connected workflow from farm gate to payment.</h2></div>
+        <div class="solution-grid">
+          <div class="solution-main"><div class="solution-icon">🤖</div><div><h3>Capacity-aware smart slot allocation</h3><p>KisanLink analyses mock centre capacity, queue load and available slots to recommend a suitable time and place.</p></div></div>
+          <div class="mini-solution"><b>🔄 Alternative Mandi</b><span>When a centre is full, show nearby options instead of a dead end.</span></div>
+          <div class="mini-solution"><b>🎫 Queue Tracking</b><span>Know your token, position and expected waiting time.</span></div>
+          <div class="mini-solution"><b>💳 Payment Tracking</b><span>Follow procurement and payment status in one place.</span></div>
+        </div>
+      </div>
+
+      <div class="container section" id="how">
+        <div class="section-heading center"><span class="eyebrow">HOW IT WORKS</span><h2>Five simple steps.</h2></div>
+        <div class="timeline">
+          <div><span>01</span><b>Select crop & quantity</b><small>Tell KisanLink what you want to procure.</small></div>
+          <div><span>02</span><b>Check capacity</b><small>View available space and queue load.</small></div>
+          <div><span>03</span><b>Get best slot</b><small>Receive a smart recommendation.</small></div>
+          <div><span>04</span><b>Reach on time</b><small>Arrive according to your slot.</small></div>
+          <div><span>05</span><b>Track payment</b><small>Follow procurement to payment.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGIN VIEW -->
+    <section id="login" class="view">
+      <div class="login-wrapper container">
+        <div class="login-box">
+          <div class="login-header">
+            <img src="assets/kisanlink-logo.jpg" alt="KisanLink" class="login-logo-img">
+            <span class="eyebrow">🇮🇳 राष्ट्रीय कृषि खरीद मंच • PORTAL SIGN IN</span>
+            <h2>Sign in to KisanLink</h2>
+            <p>अपने कृषि डैशबोर्ड में प्रवेश करें • किसान, मंडी अधिकारी व प्रशासनिक सेवाएं</p>
+          </div>
+
+          <!-- Master Auth Mode Switcher -->
+          <div class="auth-mode-tabs">
+            <button type="button" class="auth-mode-tab active" id="authModeBtn-signin" onclick="switchAuthMode('signin')">
+              <span>🔑 Sign In / प्रवेश</span>
+            </button>
+            <button type="button" class="auth-mode-tab" id="authModeBtn-signup" onclick="switchAuthMode('signup')">
+              <span>📝 New Kisan Registration / नया किसान पंजीकरण</span>
+            </button>
+          </div>
+
+          <!-- 1. SIGN IN SECTION (Multi-Role) -->
+          <div id="authSection-signin">
+          <!-- Happy Farmer Welcome Card -->
+          <div class="login-farmer-welcome">
+            <img src="assets/happy-farmer-namaste.jpg" alt="Happy Indian Farmer" class="login-farmer-avatar">
+            <div class="login-farmer-info">
+              <b>नमस्ते अन्नदाता! 🙏</b>
+              <p>“समृद्ध किसान, सशक्त भारत” — सही समय पर स्लॉट, लाइव कतार व त्वरित बैंक भुगतान।</p>
+            </div>
+          </div>
+
+          <!-- Role Selector Tabs -->
+          <div class="role-tabs">
+            <button type="button" class="role-tab active" id="tabBtn-kisan" onclick="switchLoginRole('kisan')">
+              <span class="role-icon">👨‍🌾</span>
+              <div class="role-tab-text">
+                <b>अन्नदाता किसान (Kisan)</b>
+                <small>Farmer Login • OTP आधारित</small>
+              </div>
+            </button>
+            <button type="button" class="role-tab" id="tabBtn-officer" onclick="switchLoginRole('officer')">
+              <span class="role-icon">🏭</span>
+              <div class="role-tab-text">
+                <b>खरीद केंद्र (Mandi)</b>
+                <small>Centre In-charge Login</small>
+              </div>
+            </button>
+            <button type="button" class="role-tab" id="tabBtn-government" onclick="switchLoginRole('government')">
+              <span class="role-icon">🏛️</span>
+              <div class="role-tab-text">
+                <b>कृषि विभाग (Govt)</b>
+                <small>State Agriculture Office</small>
+              </div>
+            </button>
+          </div>
+
+          <!-- 1. KISAN LOGIN CARD -->
+          <div id="loginCard-kisan" class="role-card">
+            <div class="demo-pill-box">
+              <div class="demo-pill-header">
+                <span>💡 <strong>Dummy Kisan Credentials</strong></span>
+                <button type="button" class="pill-btn" onclick="fillDummyCreds('kisan')">Auto-Fill Form</button>
+              </div>
+              <div class="demo-pill-content">
+                <div><span>Farmer Name:</span> <b>Ramlal Ji</b></div>
+                <div><span>Mobile Number:</span> <code>9876543210</code></div>
+                <div><span>Demo OTP:</span> <code>1234</code></div>
+              </div>
+            </div>
+
+            <form onsubmit="handleManualLogin('kisan', event)" class="auth-form">
+              <div class="form-field">
+                <label for="kisanPhone">Mobile Number or Kisan ID / मोबाइल नंबर</label>
+                <div class="input-wrap">
+                  <span class="input-icon">📱</span>
+                  <input id="kisanPhone" type="tel" placeholder="Enter 10-digit mobile number" value="9876543210" required maxlength="10">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <div class="label-split">
+                  <label for="kisanOtp">One-Time Password / ओटीपी</label>
+                  <button type="button" class="link-btn" id="sendOtpBtn" onclick="sendDummyOTP()">Send Demo OTP</button>
+                </div>
+                <div class="input-wrap">
+                  <span class="input-icon">🔒</span>
+                  <input id="kisanOtp" type="password" placeholder="Enter 4-digit OTP" value="1234" required maxlength="6">
+                </div>
+                <small class="field-hint" id="otpHint">Use demo OTP: <b>1234</b></small>
+              </div>
+
+              <div class="form-actions-stack">
+                <button type="submit" class="btn btn-primary full auth-submit-btn" id="submitBtn-kisan">
+                  <span>Sign In as Kisan</span> <span>→</span>
+                </button>
+                <button type="button" class="btn btn-secondary full btn-quick-demo" onclick="quickDummyLogin('kisan')">
+                  <span>⚡ 1-Click Login as Dummy Kisan (Ramlal Ji)</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- 2. PROCUREMENT CENTRE OFFICER LOGIN CARD -->
+          <div id="loginCard-officer" class="role-card hidden">
+            <div class="demo-pill-box officer-theme">
+              <div class="demo-pill-header">
+                <span>💡 <strong>Dummy Procurement Centre Credentials</strong></span>
+                <button type="button" class="pill-btn" onclick="fillDummyCreds('officer')">Auto-Fill Form</button>
+              </div>
+              <div class="demo-pill-content">
+                <div><span>Officer:</span> <b>Insp. Rajesh Sharma</b></div>
+                <div><span>Officer ID:</span> <code>OFFICER-JPR-102</code></div>
+                <div><span>Password:</span> <code>officer@123</code></div>
+              </div>
+            </div>
+
+            <form onsubmit="handleManualLogin('officer', event)" class="auth-form">
+              <div class="form-field">
+                <label for="officerMandi">Procurement Centre / मंडी केंद्र</label>
+                <div class="input-wrap">
+                  <span class="input-icon">📍</span>
+                  <select id="officerMandi">
+                    <option value="Jaipur Central Procurement Centre">Jaipur Central Procurement Centre</option>
+                    <option value="Kota Government Mandi">Kota Government Mandi</option>
+                    <option value="Ajmer Procurement Centre">Ajmer Procurement Centre</option>
+                    <option value="Alwar Grain Centre">Alwar Grain Centre</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="officerId">Officer ID / अधिकारी पहचान</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🆔</span>
+                  <input id="officerId" type="text" placeholder="e.g. OFFICER-JPR-102" value="OFFICER-JPR-102" required>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="officerPassword">Security Password / पासवर्ड</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🔑</span>
+                  <input id="officerPassword" type="password" placeholder="Enter password" value="officer@123" required>
+                </div>
+              </div>
+
+              <div class="form-actions-stack">
+                <button type="submit" class="btn btn-primary full auth-submit-btn" id="submitBtn-officer">
+                  <span>Sign In to Centre Dashboard</span> <span>→</span>
+                </button>
+                <button type="button" class="btn btn-secondary full btn-quick-demo" onclick="quickDummyLogin('officer')">
+                  <span>⚡ 1-Click Login as Mandi In-Charge (Rajesh Sharma)</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- 3. GOVERNMENT OFFICE LOGIN CARD -->
+          <div id="loginCard-government" class="role-card hidden">
+            <div class="demo-pill-box gov-theme">
+              <div class="demo-pill-header">
+                <span>💡 <strong>Dummy Government Office Credentials</strong></span>
+                <button type="button" class="pill-btn" onclick="fillDummyCreds('government')">Auto-Fill Form</button>
+              </div>
+              <div class="demo-pill-content">
+                <div><span>Official:</span> <b>Dr. Sunita Verma (Joint Director)</b></div>
+                <div><span>Gov Email:</span> <code>gov.sunita@agri.rajasthan.gov.in</code></div>
+                <div><span>PIN / Token:</span> <code>8820</code></div>
+              </div>
+            </div>
+
+            <form onsubmit="handleManualLogin('government', event)" class="auth-form">
+              <div class="form-field">
+                <label for="govEmail">Official Gov Email or SSO ID / सरकारी ईमेल</label>
+                <div class="input-wrap">
+                  <span class="input-icon">📧</span>
+                  <input id="govEmail" type="email" placeholder="e.g. gov.sunita@agri.rajasthan.gov.in" value="gov.sunita@agri.rajasthan.gov.in" required>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="govPassword">Department Password / पासवर्ड</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🔑</span>
+                  <input id="govPassword" type="password" placeholder="Enter department password" value="govadmin@2026" required>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="govPin">Security PIN / 2FA Token (4 Digits)</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🛡️</span>
+                  <input id="govPin" type="password" placeholder="e.g. 8820" value="8820" maxlength="4" required>
+                </div>
+              </div>
+
+              <div class="form-actions-stack">
+                <button type="submit" class="btn btn-primary full auth-submit-btn" id="submitBtn-government">
+                  <span>Sign In to Government Command</span> <span>→</span>
+                </button>
+                <button type="button" class="btn btn-secondary full btn-quick-demo" onclick="quickDummyLogin('government')">
+                  <span>⚡ 1-Click Login as Gov Official (Dr. Sunita Verma)</span>
+                </button>
+              </div>
+            </form>
+          </div>
+          </div>
+
+          <!-- 2. KISAN SIGNUP SECTION -->
+          <div id="authSection-signup" class="hidden">
+            <div class="signup-intro-banner">
+              <img src="assets/happy-farmer-namaste.jpg" alt="Kisan Registration" class="signup-farmer-avatar">
+              <div>
+                <span class="eyebrow">🇮🇳 नया किसान पंजीकरण • KISAN REGISTRATION</span>
+                <h3>रजिस्टर करें व न्यूनतम समर्थन मूल्य (MSP) पर उपज बेचें</h3>
+                <p>अपनी भूमि, फसल एवं बैंक (DBT) विवरण दर्ज करें। पारदर्शी स्लॉट आवंटन व त्वरित बैंक भुगतान।</p>
+              </div>
+            </div>
+
+            <div class="demo-pill-box kisan-signup-demo">
+              <div class="demo-pill-header">
+                <span>⚡ <strong>त्वरित परीक्षण हेतु डमी डेटा (1-Click Demo Fill)</strong></span>
+                <button type="button" class="pill-btn" onclick="fillDemoRegistration()">Auto-Fill Form Data</button>
+              </div>
+              <p class="demo-signup-subtext">Click above to automatically populate verified sample farmer details for instant testing.</p>
+            </div>
+
+            <form id="kisanSignupForm" onsubmit="handleKisanRegistration(event)" class="kisan-reg-form">
+              <!-- Fieldset 1: Personal & Identity -->
+              <fieldset class="reg-fieldset">
+                <legend><span>👤 1. व्यक्तिगत एवं पहचान विवरण (Personal & Identity Details)</span></legend>
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <label for="kisanRegName">Farmer's Full Name / किसान का पूरा नाम *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">👨‍🌾</span>
+                      <input id="kisanRegName" type="text" placeholder="e.g. Ramlal Sharma" required>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegFather">Father / Husband Name / पिता या पति का नाम *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">👨</span>
+                      <input id="kisanRegFather" type="text" placeholder="e.g. Shri Hariram Sharma" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <div class="label-split">
+                      <label for="kisanRegPhone">Mobile Number / मोबाइल नंबर *</label>
+                      <button type="button" class="link-btn" id="signupOtpBtn" onclick="sendSignupOTP()">Send Demo OTP</button>
+                    </div>
+                    <div class="input-wrap">
+                      <span class="input-icon">📱</span>
+                      <input id="kisanRegPhone" type="tel" placeholder="10-digit mobile number" required maxlength="10">
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegOtp">OTP Verification / ओटीपी सत्यापन *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🔒</span>
+                      <input id="kisanRegOtp" type="password" placeholder="4-digit OTP" value="1234" required maxlength="6">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <label for="kisanRegAadhaar">Aadhaar Card Number / आधार संख्या (12 अंक) *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🆔</span>
+                      <input id="kisanRegAadhaar" type="text" placeholder="XXXX-XXXX-XXXX" required maxlength="14" oninput="formatAadhaar(this)">
+                    </div>
+                    <small class="field-hint">Used for DBT direct verification & revenue record linkage</small>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegCategory">Social Category / सामाजिक वर्ग *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🏷️</span>
+                      <select id="kisanRegCategory">
+                        <option value="OBC">OBC (अन्य पिछड़ा वर्ग)</option>
+                        <option value="General">General (सामान्य)</option>
+                        <option value="SC">SC (अनुसूचित जाति)</option>
+                        <option value="ST">ST (अनुसूचित जनजाति)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Fieldset 2: Land & Revenue Details -->
+              <fieldset class="reg-fieldset">
+                <legend><span>🌾 2. कृषि भूमि एवं राजस्व विवरण (Land & Revenue Details)</span></legend>
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <label for="kisanRegDistrict">District / जिला *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">📍</span>
+                      <select id="kisanRegDistrict">
+                        <option value="Jaipur">Jaipur (जयपुर)</option>
+                        <option value="Kota">Kota (कोटा)</option>
+                        <option value="Ajmer">Ajmer (अजमेर)</option>
+                        <option value="Alwar">Alwar (अलवर)</option>
+                        <option value="Sikar">Sikar (सीकर)</option>
+                        <option value="Tonk">Tonk (टोंक)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegTehsil">Tehsil / तहसील *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🏛️</span>
+                      <input id="kisanRegTehsil" type="text" placeholder="e.g. Amber (आमेर)" required>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegVillage">Village / Gram Panchayat / गांव *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🏡</span>
+                      <input id="kisanRegVillage" type="text" placeholder="e.g. Rampura (रामपुरा)" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <label for="kisanRegKhasra">Khasra / Khatauni No. / खसरा संख्या *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">📜</span>
+                      <input id="kisanRegKhasra" type="text" placeholder="e.g. 142/3, 145/1" required>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegArea">Cultivable Land Area / कुल रकबा *</label>
+                    <div class="input-unit">
+                      <input id="kisanRegArea" type="number" step="0.1" placeholder="8.5" required min="0.5">
+                      <span>Bigha / बीघा</span>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegOwnership">Land Ownership / भूमि स्वामित्व *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">📋</span>
+                      <select id="kisanRegOwnership">
+                        <option value="Self-Owned">Self-Owned (स्वयं की भूमि)</option>
+                        <option value="Tenant">Tenant / Lease (बटाईदार)</option>
+                        <option value="Joint">Joint Family (संयुक्त खातेदार)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Fieldset 3: Crop & Procurement Details -->
+              <fieldset class="reg-fieldset">
+                <legend><span>🌱 3. फसल एवं उपज विवरण (Crop & Production Details)</span></legend>
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <label for="kisanRegCrop">Primary Crop for Sale / बिक्री हेतु फसल *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🌾</span>
+                      <select id="kisanRegCrop">
+                        <option value="Wheat">Wheat / गेहूं</option>
+                        <option value="Mustard">Mustard / सरसों</option>
+                        <option value="Gram">Gram / चना</option>
+                        <option value="Paddy">Paddy / धान</option>
+                        <option value="Bajra">Bajra / बाजरा</option>
+                        <option value="Maize">Maize / मक्का</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegSeason">Season / मौसम *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">☀️</span>
+                      <select id="kisanRegSeason">
+                        <option value="Rabi 2026">Rabi 2026 (रबी 2026)</option>
+                        <option value="Kharif 2026">Kharif 2026 (खरीफ 2026)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegQuantity">Estimated Quantity for Sale / अनुमानित मात्रा *</label>
+                    <div class="input-unit">
+                      <input id="kisanRegQuantity" type="number" placeholder="42" required min="1">
+                      <span>Quintals / क्विंटल</span>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Fieldset 4: DBT Bank Account Details -->
+              <fieldset class="reg-fieldset">
+                <legend><span>💳 4. सीधा बैंक खाता विवरण (DBT Bank Account)</span></legend>
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <label for="kisanRegBank">Bank Name / बैंक का नाम *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🏦</span>
+                      <select id="kisanRegBank">
+                        <option value="State Bank of India (SBI)">State Bank of India (SBI)</option>
+                        <option value="Punjab National Bank (PNB)">Punjab National Bank (PNB)</option>
+                        <option value="Bank of Baroda (BOB)">Bank of Baroda (BOB)</option>
+                        <option value="Rajasthan Marudhara Gramin Bank">Rajasthan Marudhara Gramin Bank</option>
+                        <option value="HDFC Bank">HDFC Bank</option>
+                        <option value="ICICI Bank">ICICI Bank</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegAccHolder">Account Holder Name / खाताधारक का नाम *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">👤</span>
+                      <input id="kisanRegAccHolder" type="text" placeholder="Name as per Passbook" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="reg-form-row">
+                  <div class="form-field">
+                    <label for="kisanRegAccNum">Bank Account Number / खाता संख्या *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🔢</span>
+                      <input id="kisanRegAccNum" type="password" placeholder="Enter bank account number" required>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label for="kisanRegIfsc">IFSC Code / आईएफएससी कोड *</label>
+                    <div class="input-wrap">
+                      <span class="input-icon">🏛️</span>
+                      <input id="kisanRegIfsc" type="text" placeholder="e.g. SBIN0001234" required maxlength="11">
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Fieldset 5: Preferred Mandi -->
+              <fieldset class="reg-fieldset">
+                <legend><span>🏢 5. पसंदीदा सरकारी खरीद केंद्र (Preferred Procurement Centre)</span></legend>
+                <div class="form-field">
+                  <label for="kisanRegMandi">Select Procurement Centre / खरीद केंद्र का चयन करें *</label>
+                  <div class="input-wrap">
+                    <span class="input-icon">📍</span>
+                    <select id="kisanRegMandi">
+                      <option value="Jaipur Central Procurement Centre">Jaipur Central Procurement Centre (जयपुर केंद्रीय मंडी)</option>
+                      <option value="Kota Government Mandi">Kota Government Mandi (कोटा सरकारी मंडी)</option>
+                      <option value="Ajmer Procurement Centre">Ajmer Procurement Centre (अजमेर खरीद केंद्र)</option>
+                      <option value="Alwar Grain Centre">Alwar Grain Centre (अलवर अनाज केंद्र)</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Declaration & Submit -->
+              <div class="reg-declaration">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="kisanRegDeclaration" required checked>
+                  <span>मैं प्रमाणित करता/करती हूं कि उपर्युक्त दी गई भूमि, फसल व बैंक विवरण सत्य हैं। (I certify that the above agricultural details are accurate as per state revenue records.)</span>
+                </label>
+              </div>
+
+              <div class="form-actions-stack">
+                <button type="submit" class="btn btn-primary full auth-submit-btn" id="kisanRegSubmitBtn">
+                  <span>📝 Complete Registration & Get Kisan ID</span> <span>→</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="login-footer">
+            <button type="button" class="text-btn" onclick="showView('home')">← Back to KisanLink Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FARMER -->
+    <section id="farmer" class="view">
+      <div class="dashboard-shell">
+        <aside class="sidebar">
+          <div class="side-brand">🌾 <b>Kisan Portal</b></div>
+          <button class="side-link active" onclick="farmerTab('overview', this)">▦ <span>Dashboard</span></button>
+          <button class="side-link" onclick="farmerTab('booking', this)">📅 <span>My Slot</span></button>
+          <button class="side-link" onclick="farmerTab('queue', this)">🎫 <span>Queue Status</span></button>
+          <button class="side-link" onclick="farmerTab('payment', this)">₹ <span>Payment</span></button>
+          <button class="side-link" onclick="farmerTab('mandis', this)">📍 <span>Mandis</span></button>
+          <button class="side-link" onclick="farmerTab('profile', this)">👤 <span>My Profile</span></button>
+          <div class="side-bottom">
+            <div class="side-user-card" id="farmerSideUser">
+              <img src="assets/happy-farmer-namaste.jpg" alt="Ramlal Ji" class="user-avatar-img">
+              <div>
+                <b id="farmerSideName">Ramlal Ji</b>
+                <small>Kisan • Jaipur</small>
+              </div>
+            </div>
+            <button class="side-link" onclick="showToast('Notifications are all caught up ✓')">🔔 <span>Notifications</span><em>3</em></button>
+            <button class="side-link" onclick="showView('home')">← <span>Back Home</span></button>
+            <button class="side-link logout-side-link" onclick="logout()">🚪 <span>Sign Out</span></button>
+          </div>
+        </aside>
+
+        <div class="dashboard-content">
+          <div class="mobile-dash-head"><button onclick="showView('home')">←</button><b>KisanLink</b><button onclick="toggleTheme()">🌙</button></div>
+
+          <div id="farmer-overview" class="farmer-tab">
+            <div class="dash-head farmer-dash-head">
+              <div class="farmer-dash-profile">
+                <img src="assets/happy-farmer-namaste.jpg" alt="Ramlal Ji" class="farmer-dash-avatar">
+                <div>
+                  <span class="eyebrow">🇮🇳 किसान डैशबोर्ड • KISAN PORTAL</span>
+                  <h1>नमस्ते, रामलाल जी 🙏</h1>
+                  <p>आपकी उपज का उचित मूल्य व पारदर्शी खरीद • जयपुर केंद्रीय मंडी</p>
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="openBooking()">+ नया स्लॉट बुक करें</button>
+            </div>
+            <div class="kpi-grid">
+              <div class="kpi-card accent"><span>📅 My Procurement Slot</span><strong>15 Sep 2026</strong><b>10:30 AM – 11:00 AM</b><small>Jaipur Central Mandi</small></div>
+              <div class="kpi-card"><span>🎫 Queue Position</span><strong id="queueKpi">#7</strong><b>6 farmers ahead</b><small>~35 min estimated wait</small></div>
+              <div class="kpi-card"><span>🌾 Procurement Status</span><strong class="status-text">Scheduled</strong><b>Arrive 15 min early</b><small>Token: KSL-042</small></div>
+              <div class="kpi-card"><span>💳 Payment Status (डीबीटी भुगतान)</span><strong class="status-text">Processing</strong><b>₹96,600</b><small>सीधा बैंक खाते में जमा होगा</small></div>
+            </div>
+
+            <div class="dashboard-grid">
+              <div class="panel">
+                <div class="panel-head"><div><h3>My Procurement Journey</h3><small>Token KSL-042</small></div><button class="text-btn" onclick="farmerTab('queue')">View Queue →</button></div>
+                <div class="journey">
+                  <div class="journey-step done"><i>✓</i><b>Slot Booked</b><small>14 Sep • 4:20 PM</small></div>
+                  <div class="journey-step current"><i>2</i><b>Waiting</b><small>Current status</small></div>
+                  <div class="journey-step"><i>3</i><b>Procurement</b><small>Pending</small></div>
+                  <div class="journey-step"><i>4</i><b>Payment</b><small>Pending</small></div>
+                </div>
+              </div>
+              <div class="panel alert-panel"><div class="panel-head"><h3>Important Alerts</h3><span class="badge warning">3</span></div><div class="alert-item"><span>⚠️</span><div><b>Reach before 10:15 AM</b><small>Your slot starts at 10:30 AM.</small></div></div><div class="alert-item"><span>💡</span><div><b>Queue is moving</b><small>2 farmers were completed recently.</small></div></div></div>
+            </div>
+          </div>
+
+          <div id="farmer-booking" class="farmer-tab hidden">
+            <div class="dash-head"><div><span class="eyebrow">SMART SLOT ALLOCATION</span><h1>Find your best procurement slot</h1><p>KisanLink checks capacity, queue load and available slots.</p></div></div>
+            <div class="booking-layout">
+              <div class="panel form-panel">
+                <div class="stepper"><span class="active">1</span><i></i><span>2</span><i></i><span>3</span></div>
+                <h3>Tell us about your produce</h3>
+                <label>Crop / फसल</label><select id="crop"><option>Wheat / गेहूं</option><option>Paddy / धान</option><option>Mustard / सरसों</option><option>Maize / मक्का</option><option>Bajra / बाजरा</option></select>
+                <label>Approximate Quantity / मात्रा</label><div class="input-unit"><input id="quantity" type="number" value="42" min="1"><span>Quintal</span></div>
+                <label>Preferred Mandi / पसंदीदा मंडी</label><select id="mandi"><option>Jaipur Central Procurement Centre</option><option>Kota Government Mandi</option><option>Ajmer Procurement Centre</option><option>Mandi A — High Load Demo</option></select>
+                <label>Preferred Date / तारीख</label><input id="date" type="date" value="2026-09-15">
+                <button class="btn btn-primary full" onclick="findBestSlot()">🤖 Find Best Slot</button>
+              </div>
+              <div class="recommendation panel">
+                <div class="ai-badge">✦ KISANLINK SMART RECOMMENDATION</div>
+                <div id="recommendationContent">
+                  <div class="empty-recommendation"><span>🤖</span><h3>Ready to find your best slot</h3><p>Enter your details and click “Find Best Slot”.</p></div>
+                </div>
+              </div>
+            </div>
+            <div id="alternatives" class="panel alternatives hidden"></div>
+          </div>
+
+          <div id="farmer-queue" class="farmer-tab hidden">
+            <div class="dash-head"><div><span class="eyebrow">LIVE-STYLE QUEUE</span><h1>Your Queue Status</h1><p>Track your position without standing in uncertainty.</p></div><button class="btn btn-secondary" onclick="updateQueue()">↻ Simulate Queue Update</button></div>
+            <div class="queue-hero panel"><div class="token-box"><small>YOUR TOKEN</small><strong>KSL-042</strong></div><div class="queue-number"><small>QUEUE POSITION</small><strong id="queueNumber">#7</strong><span id="queueWait">~35 min estimated</span></div><div class="queue-progress"><div class="progress-label"><span>Progress</span><b id="queueProgressText">64%</b></div><div class="progress"><i id="queueProgress" style="width:64%"></i></div><p>6 farmers are ahead of you.</p></div></div>
+            <div class="queue-track panel"><h3>Queue Journey</h3><div class="queue-line"><div class="q-node done">✓<span>Slot Booked</span></div><div class="q-node done">✓<span>Checked In</span></div><div class="q-node current">3<span>Your Turn</span></div><div class="q-node">4<span>Procurement</span></div><div class="q-node">5<span>Completed</span></div></div></div>
+          </div>
+
+          <div id="farmer-payment" class="farmer-tab hidden">
+            <div class="dash-head"><div><span class="eyebrow">TRANSPARENT PAYMENTS</span><h1>Payment Tracking</h1><p>Know exactly where your procurement payment stands.</p></div></div>
+            <div class="payment-card panel"><div class="payment-summary"><span>Procurement Amount</span><strong>₹96,600</strong><small>Wheat • 42 Quintal</small><span class="badge info">Processing</span></div><div class="payment-timeline"><div class="pay-step done"><i>✓</i><div><b>Produce Submitted</b><small>15 Sep 2026 • 10:48 AM</small></div></div><div class="pay-step done"><i>✓</i><div><b>Quality Checked</b><small>15 Sep 2026 • 11:05 AM</small></div></div><div class="pay-step done"><i>✓</i><div><b>Procurement Completed</b><small>15 Sep 2026 • 11:42 AM</small></div></div><div class="pay-step current"><i>₹</i><div><b>Payment Processing</b><small>Usually credited after processing</small></div></div><div class="pay-step"><i>5</i><div><b>Payment Credited</b><small>Awaiting completion</small></div></div></div></div>
+            <div class="panel payment-detail"><div><span>Procurement ID</span><b>KSL-PROC-7821</b></div><div><span>Expected Amount</span><b>₹96,600</b></div><div><span>Payment Reference</span><b>Will appear after credit</b></div></div>
+          </div>
+
+          <div id="farmer-mandis" class="farmer-tab hidden">
+            <div class="dash-head"><div><span class="eyebrow">PROCUREMENT CENTRES</span><h1>Available Mandis</h1><p>Compare capacity and queue load before you travel.</p></div><input class="search" id="mandiSearch" oninput="filterMandis()" placeholder="Search mandi or district..."></div>
+            <div id="mandiCards" class="mandi-grid"></div>
+          </div>
+
+          <div id="farmer-profile" class="farmer-tab hidden">
+            <div class="dash-head">
+              <div>
+                <span class="eyebrow">🇮🇳 किसान प्रोफाइल एवं भूमि रिकॉर्ड • KISAN PROFILE</span>
+                <h1 id="profileHeadName">Ramlal Ji • किसान प्रोफाइल</h1>
+                <p>राजस्व रिकॉर्ड, फसल विवरण व डीबीटी बैंक खाते की प्रमाणित जानकारी</p>
+              </div>
+              <button class="btn btn-primary" onclick="farmerTab('booking')">📅 इस फसल हेतु स्लॉट बुक करें</button>
+            </div>
+
+            <!-- Main Identity Banner Card -->
+            <div class="profile-overview-card">
+              <img src="assets/happy-farmer-namaste.jpg" alt="Farmer Avatar" class="profile-main-avatar">
+              <div class="profile-main-info">
+                <div class="profile-title-row">
+                  <h2 id="profileNameDisplay">Ramlal Ji</h2>
+                  <span class="badge success">✓ PM-KISAN Verified</span>
+                  <span class="badge info">✓ DBT Linked</span>
+                </div>
+                <div class="profile-meta-pills">
+                  <span><b>Kisan ID:</b> <code id="profileKisanId">KSL-KISAN-042</code></span>
+                  <span><b>Mobile:</b> <span id="profilePhone">9876543210</span></span>
+                  <span><b>Aadhaar:</b> <span id="profileAadhaar">XXXX-XXXX-8921</span></span>
+                  <span><b>Category:</b> <span id="profileCategory">OBC</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile 4-Card Grid -->
+            <div class="profile-cards-grid">
+              <!-- Card 1: Land Revenue -->
+              <div class="panel profile-panel">
+                <div class="panel-head">
+                  <h3>📜 Land & Revenue Record (राजस्व रिकॉर्ड)</h3>
+                  <span class="badge success">Verified ✓</span>
+                </div>
+                <div class="profile-detail-list">
+                  <div><span>State & District / राज्य व जिला</span><b id="profileLocation">Rajasthan • Jaipur</b></div>
+                  <div><span>Tehsil & Village / तहसील व गांव</span><b id="profileVillage">Amber • Rampura</b></div>
+                  <div><span>Khasra No. / खसरा संख्या</span><b id="profileKhasra">142/3, 145/1</b></div>
+                  <div><span>Cultivable Area / कुल रकबा</span><b id="profileArea">8.5 Bigha (2.12 Ha)</b></div>
+                  <div><span>Ownership / स्वामित्व</span><b id="profileOwnership">Self-Owned (स्वयं की)</b></div>
+                </div>
+              </div>
+
+              <!-- Card 2: Crop & Quota -->
+              <div class="panel profile-panel">
+                <div class="panel-head">
+                  <h3>🌱 Sown Crop & Quota (फसल कोटा)</h3>
+                  <span class="badge info">Rabi 2026</span>
+                </div>
+                <div class="profile-detail-list">
+                  <div><span>Registered Crop / फसल</span><b id="profileCrop">Wheat / गेहूं (शरबती)</b></div>
+                  <div><span>Current Season / मौसम</span><b id="profileSeason">Rabi 2026 (रबी)</b></div>
+                  <div><span>Approved Sale Quota / कोटा</span><b id="profileQuantity">42 Quintals</b></div>
+                  <div><span>Procurement Status</span><b class="status-text success">Eligible for Slot Booking ✓</b></div>
+                  <div><span>MSP Rate (न्यूनतम समर्थन मूल्य)</span><b>₹2,300 / Quintal</b></div>
+                </div>
+              </div>
+
+              <!-- Card 3: DBT Bank Account -->
+              <div class="panel profile-panel">
+                <div class="panel-head">
+                  <h3>💳 DBT Bank Account (बैंक खाता)</h3>
+                  <span class="badge success">Active ✓</span>
+                </div>
+                <div class="profile-detail-list">
+                  <div><span>Bank Name / बैंक का नाम</span><b id="profileBankName">State Bank of India (SBI)</b></div>
+                  <div><span>Account Holder / खाताधारक</span><b id="profileAccHolder">Ramlal Sharma</b></div>
+                  <div><span>Account Number / खाता संख्या</span><b id="profileAccNum">••••••••4820</b></div>
+                  <div><span>IFSC Code / आईएफएससी</span><b id="profileIfsc">SBIN0001234</b></div>
+                  <div><span>DBT Status / डीबीटी स्थिति</span><b class="status-text success">Direct Credit Enabled ✓</b></div>
+                </div>
+              </div>
+
+              <!-- Card 4: Mandi Centre Assignment -->
+              <div class="panel profile-panel">
+                <div class="panel-head">
+                  <h3>🏢 Mandi Centre (खरीद केंद्र)</h3>
+                  <span class="badge warning">Center Assigned</span>
+                </div>
+                <div class="profile-detail-list">
+                  <div><span>Assigned Mandi / आवंटित केंद्र</span><b id="profileMandi">Jaipur Central Procurement Centre</b></div>
+                  <div><span>Distance / दूरी</span><b>~14 km from village</b></div>
+                  <div><span>Operating Hours</span><b>9:00 AM – 5:30 PM</b></div>
+                  <div><span>Queue Load</span><b>Moderate (Queue moving)</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFICER -->
+    <section id="officer" class="view">
+      <div class="dashboard-shell">
+        <aside class="sidebar officer-side">
+          <div class="side-brand">🏛️ <b>Officer Portal</b></div>
+          <button class="side-link active">▦ <span>Overview</span></button>
+          <button class="side-link" onclick="scrollToSection('officerSlots')">📅 <span>Slot Management</span></button>
+          <button class="side-link" onclick="scrollToSection('officerQueue')">🎫 <span>Queue</span></button>
+          <button class="side-link">💳 <span>Payments</span></button>
+          <button class="side-link">⚙️ <span>Centre Settings</span></button>
+          <div class="side-bottom">
+            <div class="side-user-card" id="officerSideUser">
+              <span class="user-avatar-sm">RS</span>
+              <div>
+                <b id="officerSideName">Insp. Rajesh Sharma</b>
+                <small>Jaipur Central Mandi</small>
+              </div>
+            </div>
+            <button class="side-link" onclick="showView('home')">← <span>Back Home</span></button>
+            <button class="side-link logout-side-link" onclick="logout()">🚪 <span>Sign Out</span></button>
+          </div>
+        </aside>
+        <div class="dashboard-content">
+          <div class="dash-head"><div><span class="eyebrow">MANDI OPERATIONS</span><h1>Good morning, Officer 👋</h1><p>Jaipur Central Procurement Centre • 15 September 2026</p></div><div class="head-actions"><span class="live-pill"><i></i> Live Demo</span><button class="btn btn-secondary" onclick="showToast('Dashboard data refreshed ✓')">↻ Refresh</button></div></div>
+          <div class="kpi-grid">
+            <div class="kpi-card capacity"><span>🏭 Warehouse Capacity</span><strong>82%</strong><b>8,200 / 10,000 Q</b><div class="progress"><i style="width:82%"></i></div></div>
+            <div class="kpi-card"><span>👨‍🌾 Today's Farmers</span><strong>126</strong><b>78 completed</b><small>34 currently waiting</small></div>
+            <div class="kpi-card"><span>🎫 Waiting Queue</span><strong>34</strong><b>Avg. wait 38 min</b><small>8 above target</small></div>
+            <div class="kpi-card"><span>💳 Payment Pending</span><strong>14</strong><b>₹4.8 Lakh</b><small>Requires monitoring</small></div>
+          </div>
+          <div class="dashboard-grid">
+            <div class="panel large-panel" id="officerSlots"><div class="panel-head"><div><h3>Today's Slot Management</h3><small>Capacity: 20 farmers per slot</small></div><button class="btn btn-small btn-primary" onclick="showToast('New slot added to demo schedule ✓')">+ Add Slot</button></div><div class="table-wrap"><table><thead><tr><th>Time</th><th>Capacity</th><th>Booked</th><th>Remaining</th><th>Queue</th><th>Status</th><th></th></tr></thead><tbody id="slotTable"></tbody></table></div></div>
+            <div class="panel"><div class="panel-head"><h3>Capacity Monitor</h3><span class="badge warning">High Load</span></div><div class="capacity-ring"><div><strong>82%</strong><small>occupied</small></div></div><div class="capacity-info"><span><i class="dot used"></i> Used <b>8,200 Q</b></span><span><i class="dot available"></i> Available <b>1,800 Q</b></span></div><div class="capacity-warning">⚠️ Centre may reach 90% capacity by 2:00 PM.</div></div>
+          </div>
+          <div class="panel" id="officerQueue"><div class="panel-head"><div><h3>Farmer Queue</h3><small>Manage today's active tokens</small></div><input class="table-search" oninput="filterQueue(this.value)" placeholder="Search token or farmer..."></div><div class="table-wrap"><table><thead><tr><th>Token</th><th>Farmer</th><th>Crop</th><th>Quantity</th><th>Slot</th><th>Position</th><th>Status</th><th>Action</th></tr></thead><tbody id="queueTable"></tbody></table></div></div>
+          <div class="panel alerts-wide"><div class="panel-head"><h3>Operational Alerts</h3><span class="badge danger">2 Critical</span></div><div class="alert-grid"><div class="alert-box danger"><b>🔴 Capacity Warning</b><p>Warehouse utilization has crossed 80%. Monitor incoming bookings.</p></div><div class="alert-box warning"><b>🟠 Queue Delay</b><p>18 farmers have waited longer than their estimated time.</p></div><div class="alert-box success"><b>🟢 Target Progress</b><p>78 procurements completed. 62% of today's target achieved.</p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GOVERNMENT -->
+    <section id="government" class="view">
+      <div class="dashboard-shell">
+        <aside class="sidebar gov-side">
+          <div class="side-brand">🇮🇳 <b>Gov Command</b></div>
+          <button class="side-link active">▦ <span>National Overview</span></button>
+          <button class="side-link" onclick="scrollToSection('govMandis')">🏭 <span>Mandi Performance</span></button>
+          <button class="side-link" onclick="scrollToSection('govAnalytics')">📊 <span>Analytics</span></button>
+          <button class="side-link">⚠️ <span>Alerts</span></button>
+          <button class="side-link">⚙️ <span>Administration</span></button>
+          <div class="side-bottom">
+            <div class="side-user-card" id="govSideUser">
+              <span class="user-avatar-sm">SV</span>
+              <div>
+                <b id="govSideName">Dr. Sunita Verma</b>
+                <small>Joint Director (Agri)</small>
+              </div>
+            </div>
+            <button class="side-link" onclick="showView('home')">← <span>Back Home</span></button>
+            <button class="side-link logout-side-link" onclick="logout()">🚪 <span>Sign Out</span></button>
+          </div>
+        </aside>
+        <div class="dashboard-content">
+          <div class="dash-head"><div><span class="eyebrow">GOVERNMENT COMMAND DASHBOARD</span><h1>Procurement Operations Overview</h1><p>State-level visibility across procurement centres • Demo data</p></div><div class="head-actions"><span class="live-pill"><i></i> System Healthy</span></div></div>
+          <div class="kpi-grid gov-kpis">
+            <div class="kpi-card"><span>Total Mandis</span><strong>48</strong><small>Across 12 districts</small></div>
+            <div class="kpi-card"><span>Total Farmers Today</span><strong>12,840</strong><small>+8.4% vs yesterday</small></div>
+            <div class="kpi-card"><span>Produce Procured</span><strong>82,450 Q</strong><small>76% of target</small></div>
+            <div class="kpi-card"><span>Warehouse Utilization</span><strong>78%</strong><small>Within operating range</small></div>
+            <div class="kpi-card"><span>Payments Completed</span><strong>91%</strong><small>11,679 transactions</small></div>
+            <div class="kpi-card"><span>Farmers Waiting</span><strong>1,284</strong><small>Avg. wait 31 min</small></div>
+          </div>
+          <div class="dashboard-grid" id="govAnalytics">
+            <div class="panel chart-panel"><div class="panel-head"><div><h3>Procurement Trend</h3><small>Last 7 days • Quintals</small></div><span class="badge success">↑ 12.4%</span></div><div class="bar-chart" id="barChart"></div></div>
+            <div class="panel"><div class="panel-head"><h3>Payment Progress</h3><span class="badge info">Today</span></div><div class="donut"><div><strong>91%</strong><small>Paid</small></div></div><div class="legend"><span><i class="dot paid"></i> Paid <b>91%</b></span><span><i class="dot processing"></i> Processing <b>6%</b></span><span><i class="dot pending"></i> Pending <b>3%</b></span></div></div>
+          </div>
+          <div class="panel" id="govMandis"><div class="panel-head"><div><h3>Mandi Performance</h3><small>Capacity, queues and waiting time</small></div><select class="filter-select"><option>All Districts</option><option>Jaipur</option><option>Kota</option><option>Ajmer</option></select></div><div class="table-wrap"><table><thead><tr><th>Mandi</th><th>District</th><th>Capacity</th><th>Utilization</th><th>Farmers</th><th>Queue</th><th>Avg. Wait</th><th>Status</th></tr></thead><tbody><tr><td><b>Jaipur Central Mandi</b></td><td>Jaipur</td><td>10,000 Q</td><td><div class="mini-progress"><i style="width:91%"></i></div>91%</td><td>384</td><td>42</td><td>65 min</td><td><span class="status danger">High Load</span></td></tr><tr><td><b>Kota Government Mandi</b></td><td>Kota</td><td>12,000 Q</td><td><div class="mini-progress"><i style="width:64%"></i></div>64%</td><td>241</td><td>18</td><td>25 min</td><td><span class="status success">Normal</span></td></tr><tr><td><b>Ajmer Procurement Centre</b></td><td>Ajmer</td><td>9,000 Q</td><td><div class="mini-progress"><i style="width:87%"></i></div>87%</td><td>319</td><td>31</td><td>48 min</td><td><span class="status warning">Moderate</span></td></tr><tr><td><b>Alwar Grain Centre</b></td><td>Alwar</td><td>11,500 Q</td><td><div class="mini-progress"><i style="width:59%"></i></div>59%</td><td>198</td><td>12</td><td>19 min</td><td><span class="status success">Normal</span></td></tr></tbody></table></div></div>
+          <div class="smart-recommend panel"><div class="ai-badge">✦ KISANLINK SMART RECOMMENDATIONS</div><div class="recommend-grid"><div><span>⚡</span><h3>Capacity Optimization</h3><p>Mandi A is expected to reach 95% capacity by 2:00 PM.</p><b>Redirect 24 upcoming slots to Mandi B.</b></div><div><span>⏱</span><h3>Queue Optimization</h3><p>Kota has lower queue load and 36% free capacity.</p><b>Offer Kota to farmers searching for full centres.</b></div><div><span>💳</span><h3>Payment Attention</h3><p>438 completed procurements are still processing.</p><b>Prioritize payment reconciliation.</b></div></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="bookingModal" class="modal-backdrop hidden">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('bookingModal')">×</button>
+      <div class="modal-success-banner">
+        <img src="assets/happy-farmer-success.jpg" alt="Success" class="modal-farmer-img">
+        <div>
+          <b>बधाई हो, रामलाल जी! 🎉</b>
+          <small>आपका खरीद स्लॉट सफलतापूर्वक सुरक्षित हो गया है।</small>
+        </div>
+      </div>
+      <span class="eyebrow">SLOT CONFIRMED</span><h2>Your procurement slot is booked!</h2><p>KisanLink has reserved the following slot for your produce.</p>
+      <div class="confirmation"><div><span>Booking ID</span><b id="bookingId">KSL-2026-4812</b></div><div><span>Mandi</span><b>Jaipur Central Procurement Centre</b></div><div><span>Date & Time</span><b>15 Sep 2026 • 10:30–11:00 AM</b></div><div><span>Queue Token</span><b>KSL-042 • Position #7</b></div></div>
+      <button class="btn btn-primary full" onclick="closeModal('bookingModal'); farmerTab('queue')">View My Queue →</button>
+    </div>
+  </div>
+
+  <div id="detailsModal" class="modal-backdrop hidden"><div class="modal small"><button class="modal-close" onclick="closeModal('detailsModal')">×</button><span class="eyebrow">DETAILS</span><h2 id="modalTitle">Details</h2><div id="modalBody"></div></div></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
